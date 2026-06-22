@@ -1,69 +1,63 @@
 ---
 name: ponytail-help
 description: >
-  Quick-reference card for all ponytail modes, skills, and commands.
-  One-shot display, not a persistent mode. Trigger: /ponytail-help,
-  "ponytail help", "what ponytail commands", "how do I use ponytail".
+  ponytail 所有模式、skills 和命令的快速参考卡片。一次性展示，不是持久模式。
+  触发：/ponytail-help、“ponytail help”、“ponytail 有哪些命令”、“怎么使用 ponytail”。
 ---
 
 # Ponytail Help
 
-Display this reference card when invoked. One-shot, do NOT change mode,
-write flag files, or persist anything.
+调用时展示这张参考卡片。一次性，不要改变模式，不要写 flag 文件，不要持久化任何东西。
 
-## Levels
+## 级别
 
-| Level | Trigger | What change |
+| 级别 | 触发 | 变化 |
 |-------|---------|-------------|
-| **Lite** | `/ponytail lite` | Build what's asked, name the lazier alternative in one line. |
-| **Full** | `/ponytail` | The ladder enforced: YAGNI → stdlib → native → one line → minimum. Default. |
-| **Ultra** | `/ponytail ultra` | YAGNI extremist. Deletion before addition. Challenges requirements before building. |
+| **Lite** | `/ponytail lite` | 构建用户要求的东西，并用一句话指出更懒的替代方案。 |
+| **Full** | `/ponytail` | 强制执行阶梯：YAGNI → 标准库 → 原生能力 → 一行 → 最小实现。默认。 |
+| **Ultra** | `/ponytail ultra` | YAGNI 极端模式。删除先于新增。构建前先挑战需求。 |
 
-Level sticks until changed or session end.
+级别会持续到被改变或会话结束。
 
 ## Skills
 
-| Skill | Trigger | What it does |
+| Skill | 触发 | 作用 |
 |-------|---------|--------------|
-| **ponytail** | `/ponytail` | Lazy mode itself. Simplest solution that works. |
-| **ponytail-review** | `/ponytail-review` | Over-engineering review: `L42: yagni: factory, one product. Inline.` |
-| **ponytail-gain** | `/ponytail-gain` | Measured-impact scoreboard: less code, less cost, more speed. |
-| **ponytail-help** | `/ponytail-help` | This card. |
+| **ponytail** | `/ponytail` | 懒模式本体。采用能工作的最简单方案。 |
+| **ponytail-review** | `/ponytail-review` | 过度工程 review：`L42: yagni: factory, one product. Inline.` |
+| **ponytail-gain** | `/ponytail-gain` | 实测影响记分板：更少代码、更低成本、更快速度。 |
+| **ponytail-help** | `/ponytail-help` | 当前卡片。 |
 
-Codex uses `@ponytail`, `@ponytail-review`, and `@ponytail-help`; Claude Code
-and OpenCode use the slash-command forms above (OpenCode ships `/ponytail` and
-`/ponytail-review`).
+Codex 使用 `@ponytail`、`@ponytail-review` 和 `@ponytail-help`；Claude Code 和 OpenCode 使用上面的斜杠命令形式（OpenCode 提供 `/ponytail` 和 `/ponytail-review`）。
 
-## Deactivate
+## 停用
 
-Say "stop ponytail" or "normal mode". Resume anytime with `/ponytail`.
-`/ponytail off` also works.
+说 “stop ponytail” 或 “normal mode”。随时用 `/ponytail` 恢复。`/ponytail off` 也可用。
 
-## Configure Default Mode
+## 配置默认模式
 
-Default mode = `full`, auto-active every session. Change it:
+默认模式 = `full`，每个会话自动激活。修改方式：
 
-**Environment variable** (highest priority):
+**环境变量**（最高优先级）：
 ```bash
 export PONYTAIL_DEFAULT_MODE=ultra
 ```
 
-**Config file** (`~/.config/ponytail/config.json`, Windows: `%APPDATA%\ponytail\config.json`):
+**配置文件**（`~/.config/ponytail/config.json`，Windows：`%APPDATA%\ponytail\config.json`）：
 ```json
 { "defaultMode": "lite" }
 ```
 
-Set `"off"` to disable auto-activation on session start, activate manually
-with `/ponytail` when wanted.
+设置为 `"off"` 可禁用会话开始时的自动激活，需要时再用 `/ponytail` 手动激活。
 
-Resolution: env var > config file > `full`.
+解析优先级：环境变量 > 配置文件 > `full`。
 
-## Update
+## 更新
 
-Enable auto-update once: open `/plugin`, go to Marketplaces, pick ponytail, Enable auto-update. Claude Code then pulls new versions at startup (run `/reload-plugins` when it prompts). Manual refresh: `/plugin marketplace update ponytail` then `/reload-plugins`.
+启用一次自动更新：打开 `/plugin`，进入 Marketplaces，选择 ponytail，启用自动更新。之后 Claude Code 会在启动时拉取新版本（提示时运行 `/reload-plugins`）。手动刷新：先运行 `/plugin marketplace update ponytail`，再运行 `/reload-plugins`。
 
-If `/plugin` is not recognized, your Claude Code is out of date. Update it (`npm install -g @anthropic-ai/claude-code@latest`, or `brew upgrade claude-code`) and restart. Other hosts use their own update flow.
+如果 `/plugin` 无法识别，说明你的 Claude Code 版本太旧。更新它（`npm install -g @anthropic-ai/claude-code@latest`，或 `brew upgrade claude-code`）并重启。其他 host 使用各自的更新流程。
 
-## More
+## 更多
 
-Full docs + examples: https://github.com/DietrichGebert/ponytail
+完整文档和示例：https://github.com/DietrichGebert/ponytail

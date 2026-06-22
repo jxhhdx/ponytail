@@ -1,27 +1,20 @@
 ---
 name: ponytail-gain
 description: >
-  Show ponytail's measured impact as a compact scoreboard: less code, less
-  cost, more speed, from the benchmark medians. One-shot display, not a
-  persistent mode, and not a per-repo number. Trigger: /ponytail-gain,
-  "ponytail gain", "what does ponytail save", "show ponytail impact",
-  "ponytail scoreboard".
+  用紧凑记分板展示 ponytail 的实测影响：更少代码、更低成本、更快速度，数据来自 benchmark 中位数。
+  一次性展示，不是持久模式，也不是当前仓库的专属数字。触发：/ponytail-gain、
+  “ponytail gain”、“ponytail 节省了什么”、“展示 ponytail 影响”、“ponytail scoreboard”。
 ---
 
 # Ponytail Gain
 
-Display this scoreboard when invoked. One-shot: do NOT change mode, write flag
-files, or persist anything.
+调用时展示这个记分板。一次性：不要改变模式，不要写 flag 文件，不要持久化任何东西。
 
-The figures are the published benchmark medians (5 everyday tasks: email
-validator, debounce, CSV sum, countdown timer, rate limiter; three models:
-Haiku, Sonnet, Opus). They are measured, not computed from the current repo.
-Source: `benchmarks/` and the README.
+这些数字是已发布 benchmark 的中位数（5 个日常任务：email validator、debounce、CSV sum、countdown timer、rate limiter；3 个模型：Haiku、Sonnet、Opus）。它们是实测数据，不是从当前仓库计算出来的。来源：`benchmarks/` 和 README。
 
-## Scoreboard
+## 记分板
 
-Render plain ASCII bars. The bar length shows the measured range; the label
-carries the exact figure:
+渲染纯 ASCII 条形图。条形长度表示测量范围；标签给出精确数字：
 
 ```
   ponytail gain                     benchmark median · 5 tasks · 3 models
@@ -36,15 +29,11 @@ carries the exact figure:
               /ponytail-audit (what's still cuttable)
 ```
 
-## Honesty boundary
+## 诚实边界
 
-These are benchmark medians, not this repo. NEVER print a per-repo savings
-number ("you saved X lines/tokens here"): the unbuilt version was never
-written, so there is no real baseline to subtract from in a live repo. The
-only real per-repo figures come from `/ponytail-debt` (a counted ledger), and
-this card points there instead of inventing one.
+这些是 benchmark 中位数，不是当前仓库的数据。永远不要输出单仓库节省数字（例如“这里节省了 X 行/token”）：未构建版本从来没有被写出来，所以在真实仓库里没有可相减的真实 baseline。唯一真实的单仓库数字来自 `/ponytail-debt`（可计数台账），这个卡片应该指向那里，而不是编造数字。
 
-## Boundaries
+## 边界
 
-One-shot display. Edits nothing, changes no mode.
-"stop ponytail" or "normal mode": revert.
+一次性展示。不编辑任何东西，不改变模式。
+说 “stop ponytail” 或 “normal mode” 可恢复。

@@ -1,41 +1,34 @@
 ---
 name: ponytail-audit
 description: >
-  Whole-repo audit for over-engineering. Like ponytail-review, but scans the
-  entire codebase instead of a diff: a ranked list of what to delete, simplify,
-  or replace with stdlib/native equivalents. Use when the user says "audit this
-  codebase", "audit for over-engineering", "what can I delete from this repo",
-  "find bloat", "ponytail-audit", or "/ponytail-audit". One-shot report, does
-  not apply fixes.
+  对整个仓库做过度工程审计。类似 ponytail-review，但扫描的是整个代码库，而不是某个 diff：
+  输出一个按收益排序的清单，说明哪些可以删除、简化，或替换成标准库/原生平台能力。
+  当用户说“审计这个代码库”、“检查过度工程”、“这个仓库有什么能删”、“找臃肿代码”、
+  “ponytail-audit” 或 “/ponytail-audit” 时使用。一次性报告，不应用修复。
 ---
 
-ponytail-review, repo-wide. Scan the whole tree instead of a diff. Rank
-findings biggest cut first.
+仓库级的 ponytail-review。扫描整棵目录树，而不是某个 diff。按可减少最多代码的发现优先排序。
 
-## Tags
+## 标签
 
-Same as ponytail-review:
+与 ponytail-review 相同：
 
-- `delete:` dead code, unused flexibility, speculative feature. Replacement: nothing.
-- `stdlib:` hand-rolled thing the standard library ships. Name the function.
-- `native:` dependency or code doing what the platform already does. Name the feature.
-- `yagni:` abstraction with one implementation, config nobody sets, layer with one caller.
-- `shrink:` same logic, fewer lines. Show the shorter form.
+- `delete:` 死代码、未使用的灵活性、推测性功能。替代物：无。
+- `stdlib:` 手写了标准库已有的东西。说明对应函数。
+- `native:` 依赖或代码在做平台原生已经支持的事。说明对应特性。
+- `yagni:` 只有一个实现的抽象、没人设置的配置、只有一个调用方的层。
+- `shrink:` 同样逻辑，更少行数。展示更短写法。
 
-## Hunt
+## 搜索目标
 
-Deps the stdlib or platform already ships, single-implementation interfaces,
-factories with one product, wrappers that only delegate, files exporting one
-thing, dead flags and config, hand-rolled stdlib.
+标准库或平台已经提供的依赖、只有一个实现的接口、只有一个产品的工厂、只做转发的包装器、只导出一个东西的文件、失效的 flag 和配置、手写标准库。
 
-## Output
+## 输出
 
-One line per finding, ranked: `<tag> <what to cut>. <replacement>. [path]`.
-End with `net: -<N> lines, -<M> deps possible.` Nothing to cut: `Lean already. Ship.`
+每个发现一行，按优先级排序：`<tag> <要删什么>. <替代方案>. [path]`。
+结尾写：`net: -<N> lines, -<M> deps possible.` 没东西可删时：`Lean already. Ship.`
 
-## Boundaries
+## 边界
 
-Scope: over-engineering and complexity only. Correctness bugs, security holes,
-and performance are explicitly out of scope. Route them to a normal review
-pass. Lists findings, applies nothing. One-shot.
-"stop ponytail-audit" or "normal mode" to revert.
+范围：只看过度工程和复杂度。正确性 bug、安全漏洞和性能问题明确不在范围内，交给普通 review。只列出发现，不应用修改。一次性执行。
+说 “stop ponytail-audit” 或 “normal mode” 可恢复。

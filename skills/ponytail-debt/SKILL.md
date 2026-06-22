@@ -1,44 +1,34 @@
 ---
 name: ponytail-debt
 description: >
-  Harvest every `ponytail:` comment in the codebase into a debt ledger, so the
-  deliberate shortcuts and deferrals ponytail leaves behind get tracked instead
-  of rotting into "later means never". Use when the user says "ponytail debt",
-  "/ponytail-debt", "what did ponytail defer", "list the shortcuts", "ponytail
-  ledger", or "what did we mark to do later". One-shot report, changes nothing.
+  收集代码库里所有 `ponytail:` 注释，整理成技术债台账，让 ponytail 留下的有意捷径和延期项被追踪，
+  而不是腐烂成“以后就是永远不会”。当用户说“ponytail debt”、“/ponytail-debt”、
+  “ponytail 推迟了什么”、“列出这些捷径”、“ponytail ledger” 或“我们标了哪些以后再做”时使用。
+  一次性报告，不修改任何东西。
 ---
 
-Every deliberate ponytail shortcut is marked with a `ponytail:` comment naming
-its ceiling and upgrade path. This collects them into one ledger so a deferral
-can't quietly become permanent.
+每个有意的 ponytail 捷径都用 `ponytail:` 注释标记，写明它的上限和升级路径。这个 skill 会把它们收集到一个台账里，避免延期项悄悄变成永久状态。
 
-## Scan
+## 扫描
 
-Grep the repo for comment markers, skipping `node_modules`, `.git`, and build
-output:
+在仓库中 grep 注释标记，跳过 `node_modules`、`.git` 和构建输出：
 
 `grep -rnE '(#|//) ?ponytail:' .`  (add other comment prefixes if your stack uses them)
 
-Each hit is one ledger row. The comment prefix keeps prose that merely mentions
-the convention out of the ledger.
+每个命中项是一条台账记录。注释前缀可以避免把只是提到这个约定的普通文字收进台账。
 
-## Output
+## 输出
 
-One row per marker, grouped by file:
+每个标记一行，按文件分组：
 
 `<file>:<line>, <what was simplified>. ceiling: <the limit named>. upgrade: <the trigger to revisit>.`
 
-The convention is `ponytail: <ceiling>, <upgrade path>`, so pull the ceiling
-and the trigger straight from the comment. Want an owner per row too? add
-`git blame -L<line>,<line>`.
+约定格式是 `ponytail: <ceiling>, <upgrade path>`，所以直接从注释里提取上限和触发条件。也想给每行加 owner？使用 `git blame -L<line>,<line>`。
 
-Flag the rot risk: any `ponytail:` comment that names no upgrade path or
-trigger gets a `no-trigger` tag, those are the ones that silently rot.
+标出腐烂风险：任何没有写升级路径或触发条件的 `ponytail:` 注释，都加上 `no-trigger` 标签；这些最容易悄悄烂掉。
 
-End with `<N> markers, <M> with no trigger.` Nothing found: `No ponytail: debt. Clean ledger.`
+结尾写：`<N> markers, <M> with no trigger.` 没找到时：`No ponytail: debt. Clean ledger.`
 
-## Boundaries
+## 边界
 
-Reads and reports only, changes nothing. To persist it, ask and it writes the
-ledger to a file (e.g. `PONYTAIL-DEBT.md`). One-shot. "stop ponytail-debt" or
-"normal mode" to revert.
+只读取和报告，不修改任何东西。若用户要求持久化，再把台账写入文件（例如 `PONYTAIL-DEBT.md`）。一次性执行。说 “stop ponytail-debt” 或 “normal mode” 可恢复。
