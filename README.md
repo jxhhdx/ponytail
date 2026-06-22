@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <sub><a href="README.es.md">Español</a></sub>
+  <sub><a href="README.zh.md">中文</a> &middot; <a href="README.es.md">Español</a></sub>
 </p>
 
 ---
