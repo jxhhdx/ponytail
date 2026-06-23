@@ -1,8 +1,8 @@
-# Infinite Scroll
+# 无限滚动
 
-**Task:** "Load more items when the user scrolls to the bottom."
+**任务：** “当用户滚动到底部时加载更多项目。”
 
-## Without Ponytail
+## 未启用 Ponytail
 
 ```bash
 npm install react-infinite-scroll-component
@@ -27,12 +27,12 @@ export function Feed({ items, fetchMore, hasMore }) {
 }
 ```
 
-A dependency to watch scroll position and fire a callback.
+为了监听滚动位置并触发回调，引入了一个依赖。
 
-## With Ponytail
+## 启用 Ponytail
 
 ```jsx
-// ponytail: IntersectionObserver does this, no scroll listener needed
+// ponytail: IntersectionObserver 就是做这个的，不需要 scroll listener
 import { useEffect, useRef } from "react";
 
 export function Feed({ items, fetchMore, hasMore }) {
@@ -55,4 +55,4 @@ export function Feed({ items, fetchMore, hasMore }) {
 }
 ```
 
-**1 dependency → 0 dependencies.** `IntersectionObserver` fires only when the sentinel enters the viewport, no scroll event, no throttling, no jank. Ships in every browser. The library wraps exactly this API.
+**1 个依赖 → 0 个依赖。** `IntersectionObserver` 只在哨兵元素进入视口时触发，没有 scroll 事件，没有节流，也没有卡顿。所有浏览器都支持。那个库包装的正是这个 API。

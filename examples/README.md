@@ -1,17 +1,14 @@
-# Examples
+# 示例
 
-Real model output, verbatim from benchmark runs, the same task answered by the same model
-with no skill (`## Without Ponytail`) and with ponytail (`## With Ponytail`), so you can
-compare side by side. Model: Claude Haiku 4.5, temperature 1, source `benchmarks/output.json`.
+这些是真实模型输出，来自 benchmark 运行：同一个任务由同一个模型分别在未启用 skill（`## 未启用 Ponytail`）和启用 ponytail（`## 启用 Ponytail`）时回答，方便并排比较。模型：Claude Haiku 4.5，temperature 1，来源 `benchmarks/output.json`。
 
-These are not hand-written. Reproduce them yourself:
-`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`. Method, all three models, and
-median-of-10 numbers: [../benchmarks/](../benchmarks/).
+这些不是手写样例。你可以自己复现：
+`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`。方法、全部三个模型和 10 次运行中位数见：[../benchmarks/](../benchmarks/)。
 
-| Example | Without (LOC) | With (LOC) |
+| 示例 | 未启用（LOC） | 启用后（LOC） |
 |---|--:|--:|
-| [Email Validation](email-validation.md) | 75 | 3 |
+| [邮箱校验](email-validation.md) | 75 | 3 |
 | [Debounce](debounce.md) | 116 | 10 |
-| [CSV Sum](csv-sum.md) | 20 | 3 |
-| [Countdown Timer](react-countdown.md) | 267 | 9 |
-| [Rate Limiting](rate-limit.md) | 128 | 10 |
+| [CSV 求和](csv-sum.md) | 20 | 3 |
+| [倒计时组件](react-countdown.md) | 267 | 9 |
+| [速率限制](rate-limit.md) | 128 | 10 |

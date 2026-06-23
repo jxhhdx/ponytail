@@ -1,41 +1,41 @@
-# URL Parameters
+# URL 参数
 
-**Task:** "Parse and build URL query strings."
+**任务：** “解析和构建 URL 查询字符串。”
 
-## Without Ponytail
+## 未启用 Ponytail
 
 ```bash
 npm install query-string
-# 4.5 kB gzipped, 3.5M downloads/week
+# gzip 后 4.5 kB，每周 350 万下载
 ```
 
 ```js
 import qs from "query-string";
 
-// Parse
+// 解析
 const params = qs.parse(location.search);
 // → { page: "2", sort: "name", tags: ["js", "css"] }
 
-// Build
+// 构建
 const url = qs.stringify({ page: 2, sort: "name", tags: ["js", "css"] });
 // → "page=2&sort=name&tags=js&tags=css"
 ```
 
-## With Ponytail
+## 启用 Ponytail
 
 ```js
-// ponytail: URLSearchParams does this
+// ponytail: URLSearchParams 就是做这个的
 const params = new URLSearchParams(location.search);
 
-// Read
+// 读取
 params.get("page");         // "2"
 params.getAll("tags");      // ["js", "css"]
 
-// Build
+// 构建
 const out = new URLSearchParams({ page: 2, sort: "name" });
 out.append("tags", "js");
 out.append("tags", "css");
 out.toString(); // "page=2&sort=name&tags=js&tags=css"
 ```
 
-**1 dependency → 0 dependencies.** `URLSearchParams` is in every browser and in Node.js since v10. It handles encoding, repeated keys, and iteration. The package was a polyfill for an API that has shipped everywhere for years.
+**1 个依赖 → 0 个依赖。** `URLSearchParams` 存在于所有浏览器中，Node.js 从 v10 起也支持。它会处理编码、重复键和迭代。这个包曾经是在给一个早已全平台发布的 API 做 polyfill。

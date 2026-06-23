@@ -1,29 +1,29 @@
-# CSV Sum
+# CSV 求和
 
-**Task:** "Write Python code that reads sales.csv and sums the 'amount' column."
+**任务：** “写一段 Python 代码，读取 sales.csv，并求 'amount' 列的总和。”
 
-Verbatim model output from a benchmark run, Claude Haiku 4.5, no-skill arm vs ponytail arm, temperature 1, source `benchmarks/output.json`. Reproduce: `npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`.
+以下内容源自一次 benchmark 运行的模型输出，Claude Haiku 4.5，未启用 skill 组 vs ponytail 组，temperature 1，来源 `benchmarks/output.json`。复现：`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`。
 
-## Without Ponytail, 20 lines of code
+## 未启用 Ponytail，20 行代码
 
-# Python code to read sales.csv and sum the 'amount' column
+# 读取 sales.csv 并求 'amount' 列总和的 Python 代码
 
 ```python
 import pandas as pd
 
-# Read the CSV file
+# 读取 CSV 文件
 df = pd.read_csv('sales.csv')
 
-# Sum the 'amount' column
+# 求 'amount' 列总和
 total_amount = df['amount'].sum()
 
-# Print the result
+# 打印结果
 print(f"Total amount: ${total_amount:,.2f}")
 ```
 
-## Alternative methods:
+## 替代方法：
 
-**Using CSV module (without pandas):**
+**使用 CSV 模块（不使用 pandas）：**
 ```python
 import csv
 
@@ -37,7 +37,7 @@ with open('sales.csv', 'r') as file:
 print(f"Total amount: ${total_amount:,.2f}")
 ```
 
-**Using pandas with error handling:**
+**使用 pandas 并带错误处理：**
 ```python
 import pandas as pd
 
@@ -51,13 +51,13 @@ except KeyError:
     print("Error: 'amount' column not found")
 ```
 
-**The pandas method is recommended** because it's:
-- More concise and readable
-- Handles data types automatically
-- Provides built-in error handling
-- Efficient for large files
+**推荐 pandas 方法**，因为它：
+- 更简洁、可读
+- 自动处理数据类型
+- 提供内建错误处理
+- 对大文件更高效
 
-## With Ponytail, 3 lines of code
+## 启用 Ponytail，3 行代码
 
 ```python
 import csv
@@ -66,6 +66,6 @@ total = sum(float(row['amount']) for row in csv.DictReader(open('sales.csv')))
 print(total)
 ```
 
-Skipped: pandas, error handling, file closing, add when the CSV is large, malformed, or you need more analysis.
+省掉了：pandas、错误处理、关闭文件。等 CSV 很大、格式不可靠，或你需要更多分析时再加。
 
-**20 → 3 lines of code**, same model, same prompt.
+**20 → 3 行代码**，同一个模型，同一个提示。

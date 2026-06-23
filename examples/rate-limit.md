@@ -1,16 +1,16 @@
-# Rate Limiting
+# 速率限制
 
-**Task:** "Add rate limiting to my FastAPI endpoint so users can't spam it."
+**任务：** “给我的 FastAPI endpoint 添加速率限制，防止用户刷接口。”
 
-Verbatim model output from a benchmark run, Claude Haiku 4.5, no-skill arm vs ponytail arm, temperature 1, source `benchmarks/output.json`. Reproduce: `npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`.
+以下内容源自一次 benchmark 运行的模型输出，Claude Haiku 4.5，未启用 skill 组 vs ponytail 组，temperature 1，来源 `benchmarks/output.json`。复现：`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`。
 
-## Without Ponytail, 128 lines of code
+## 未启用 Ponytail，128 行代码
 
-# Rate Limiting in FastAPI
+# FastAPI 中的速率限制
 
-Here are several approaches, from simplest to most robust:
+下面是几种方案，从最简单到最健壮：
 
-## 1. **Using `slowapi` (Recommended - Easiest)**
+## 1. **使用 `slowapi`（推荐，最简单）**
 
 ```bash
 pip install slowapi
@@ -38,14 +38,14 @@ async def get_data(request: Request):
     return {"message": "Success"}
 ```
 
-**Rate limit formats:**
-- `"5/minute"` - 5 requests per minute
-- `"100/hour"` - 100 requests per hour
-- `"1000/day"` - 1000 requests per day
+**速率限制格式：**
+- `"5/minute"` - 每分钟 5 次请求
+- `"100/hour"` - 每小时 100 次请求
+- `"1000/day"` - 每天 1000 次请求
 
 ---
 
-## 2. **Using `limits` Library (More Control)**
+## 2. **使用 `limits` 库（更多控制）**
 
 ```bash
 pip install limits
@@ -75,7 +75,7 @@ async def get_data(request: Request):
 
 ---
 
-## 3. **Custom Middleware (Full Control)**
+## 3. **自定义中间件（完全控制）**
 
 ```python
 from fastapi import FastAPI, HTTPException, Request
@@ -85,30 +85,30 @@ import asyncio
 
 app = FastAPI()
 
-# Store request timestamps per IP
+# 按 IP 存储请求时间戳
 request_history = defaultdict(list)
-RATE_LIMIT = 5  # requests
-TIME_WINDOW = 60  # seconds
+RATE_LIMIT = 5  # 请求数
+TIME_WINDOW = 60  # 秒
 
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
     client_ip = request.client.host
     now = datetime.now()
     
-    # Clean old requests outside time window
+    # 清理时间窗口之外的旧请求
     request_history[client_ip] = [
         req_time for req_time in request_history[client_ip]
         if now - req_time < timedelta(seconds=TIME_WINDOW)
     ]
     
-    # Check if limit exceeded
+    # 检查是否超过限制
     if len(request_history[client_ip]) >= RATE_LIMIT:
         return JSONResponse(
             status_code=429,
             content={"detail": "Rate limit exceeded"}
         )
     
-    # Record this request
+    # 记录本次请求
     request_history[client_ip].append(now)
     
     return await call_next(request)
@@ -120,7 +120,7 @@ async def get_data():
 
 ---
 
-## 4. **Per-User Rate Limiting (With Authentication)**
+## 4. **按用户限流（带认证）**
 
 ```python
 from fastapi import FastAPI, Depends, HTTPException
@@ -131,7 +131,7 @@ app = FastAPI()
 limiter = Limiter(key_func=get_remote_address)
 
 def get_user_id(token: str = Header(None)) -> str:
-    # Your auth logic here
+    # 你的认证逻辑
     return token or "anonymous"
 
 @app.get("/api/data")
@@ -142,7 +142,7 @@ async def get_data(request: Request, user_id: str = Depends(get_user_id)):
 
 ---
 
-## 5. **Redis-Based Rate Limiting (Production)**
+## 5. **基于 Redis 的速率限制（生产环境）**
 
 ```bash
 pip install slowapi redis
@@ -180,7 +180,7 @@ async def get_data(request: Request):
 
 ---
 
-## 6. **Complete Example with Multiple Endpoints**
+## 6. **带多个 endpoint 的完整示例**
 
 ```python
 from fastapi import FastAPI, Request
@@ -203,19 +203,19 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
         }
     )
 
-# Strict limit
+# 严格限制
 @app.post("/api/login")
 @limiter.limit("3/minute")
 async def login(request: Request):
     return {"token": "xxx"}
 
-# Moderate limit
+# 中等限制
 @app.get("/api/data")
 @limiter.limit("30/minute")
 async def get_data(request: Request):
     return {"data": []}
 
-# Generous limit
+# 宽松限制
 @app.get("/api/public")
 @limiter.limit("100/minute")
 async def get_public(request: Request):
@@ -224,18 +224,18 @@ async def get_public(request: Request):
 
 ---
 
-## Comparison Table
+## 对比表
 
-| Method | Pros | Cons | Best For |
+| 方法 | 优点 | 缺点 | 最适合 |
 |--------|------|------|----------|
-| **slowapi** | Easy, decorator-based | In-memory only | Development, small apps |
-| **limits** | Flexible, multiple backends | More setup | Custom logic |
-| **Middleware** | Full control, no dependencies | Manual cleanup | Learning, simple cases |
-| **Redis** | Distributed, scalable | Requires Redis | Production, multi-server |
+| **slowapi** | 简单，基于装饰器 | 仅内存 | 开发、小应用 |
+| **limits** | 灵活，多个后端 | 配置更多 | 自定义逻辑 |
+| **中间件** | 完全控制，无依赖 | 手动清理 | 学习、简单场景 |
+| **Redis** | 分布式，可扩展 | 需要 Redis | 生产、多服务器 |
 
 ---
 
-## Testing Rate Limits
+## 测试速率限制
 
 ```python
 import httpx
@@ -245,12 +245,12 @@ async def test_rate_limit():
         for i in range(6):
             response = await client.get("/api/data")
             print(f"Request {i+1}: {response.status_code}")
-            # First 5 should be 200, 6th should be 429
+            # 前 5 次应为 200，第 6 次应为 429
 ```
 
-**Recommendation:** Use `slowapi` for most cases, it's the most popular and easiest to implement! 🚀
+**建议：** 大多数场景使用 `slowapi`，它最流行，也最容易实现。
 
-## With Ponytail, 10 lines of code
+## 启用 Ponytail，10 行代码
 
 ```python
 from fastapi import FastAPI, HTTPException
@@ -267,6 +267,6 @@ async def my_endpoint(request):
     return {"status": "ok"}
 ```
 
-Skipped: custom rate limit logic, Redis, sliding windows, `slowapi` handles it. Add when: you need distributed rate limiting across multiple servers (swap `Limiter` for Redis backend) or per-user limits (add `key_func=lambda r: r.headers.get("authorization")`).
+省掉了：自定义限流逻辑、Redis、滑动窗口，`slowapi` 会处理这些。什么时候再加：你需要跨多台服务器的分布式限流（把 `Limiter` 换成 Redis 后端），或者需要按用户限流（添加 `key_func=lambda r: r.headers.get("authorization")`）。
 
-**128 → 10 lines of code**, same model, same prompt.
+**128 → 10 行代码**，同一个模型，同一个提示。

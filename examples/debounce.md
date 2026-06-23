@@ -1,16 +1,16 @@
 # Debounce
 
-**Task:** "Add debounce to a search input in vanilla JavaScript. It currently fires an API call on every keystroke."
+**任务：** “给一个原生 JavaScript 搜索输入添加 debounce。它现在每次按键都会触发一次 API 调用。”
 
-Verbatim model output from a benchmark run, Claude Haiku 4.5, no-skill arm vs ponytail arm, temperature 1, source `benchmarks/output.json`. Reproduce: `npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`.
+以下内容源自一次 benchmark 运行的模型输出，Claude Haiku 4.5，未启用 skill 组 vs ponytail 组，temperature 1，来源 `benchmarks/output.json`。复现：`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`。
 
-## Without Ponytail, 116 lines of code
+## 未启用 Ponytail，116 行代码
 
-# Debounce Search Input
+# Debounce 搜索输入
 
-Here's a practical implementation to prevent excessive API calls:
+下面是一个防止过量 API 调用的实用实现：
 
-## Basic Debounce Function
+## 基础 Debounce 函数
 
 ```javascript
 function debounce(func, delay) {
@@ -21,7 +21,7 @@ function debounce(func, delay) {
   };
 }
 
-// Usage
+// 使用方式
 const searchInput = document.getElementById('search');
 const resultsContainer = document.getElementById('results');
 
@@ -40,7 +40,7 @@ const handleSearch = async (query) => {
   }
 };
 
-// Debounce the search function (300ms delay)
+// 对搜索函数做 debounce（300ms 延迟）
 const debouncedSearch = debounce(handleSearch, 300);
 
 searchInput.addEventListener('input', (e) => {
@@ -48,7 +48,7 @@ searchInput.addEventListener('input', (e) => {
 });
 ```
 
-## Enhanced Version with Loading State
+## 带加载状态的增强版本
 
 ```javascript
 const searchInput = document.getElementById('search');
@@ -91,7 +91,7 @@ function displayResults(data) {
 }
 ```
 
-## Advanced: Debounce with Cancel & Immediate Options
+## 高级版：带取消和立即执行选项的 Debounce
 
 ```javascript
 function debounce(func, delay, options = {}) {
@@ -114,22 +114,22 @@ function debounce(func, delay, options = {}) {
     }, delay);
   };
   
-  // Allow manual cancellation
+  // 允许手动取消
   debounced.cancel = () => clearTimeout(timeoutId);
   
   return debounced;
 }
 
-// Usage with options
+// 使用选项
 const debouncedSearch = debounce(handleSearch, 300, { immediate: false });
 
-// Cancel pending search if needed
+// 需要时取消待执行搜索
 searchInput.addEventListener('blur', () => {
   debouncedSearch.cancel();
 });
 ```
 
-## HTML Example
+## HTML 示例
 
 ```html
 <div class="search-container">
@@ -178,19 +178,19 @@ searchInput.addEventListener('blur', () => {
 </style>
 ```
 
-## Key Benefits
+## 主要收益
 
-| Feature | Benefit |
+| 功能 | 收益 |
 |---------|---------|
-| **Debounce** | Reduces API calls from 100+ to 1-2 per search |
-| **300ms delay** | Balances responsiveness with performance |
-| **Loading state** | Provides user feedback |
-| **Error handling** | Graceful failure management |
-| **Cancel method** | Cleanup when needed |
+| **Debounce** | 把每次搜索 100+ 次 API 调用降到 1-2 次 |
+| **300ms 延迟** | 在响应速度和性能之间取得平衡 |
+| **加载状态** | 给用户反馈 |
+| **错误处理** | 优雅处理失败 |
+| **取消方法** | 需要时清理 |
 
-**Typical keystroke reduction:** 10 characters = 10 API calls → 1-2 API calls with debounce ✅
+**典型按键减少量：** 10 个字符 = 10 次 API 调用 → debounce 后 1-2 次 API 调用
 
-## With Ponytail, 10 lines of code
+## 启用 Ponytail，10 行代码
 
 ```javascript
 const searchInput = document.querySelector('input[type="search"]');
@@ -201,11 +201,11 @@ searchInput.addEventListener('input', (e) => {
   debounceTimer = setTimeout(() => {
     fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`)
       .then(r => r.json())
-      .then(data => console.log(data)); // replace with your render
+      .then(data => console.log(data)); // 替换成你的渲染逻辑
   }, 300);
 });
 ```
 
-Skipped: debounce utility function, class wrapper, config object, `setTimeout` + `clearTimeout` is the debounce. Add a utility when you need it on 3+ inputs.
+省掉了：debounce 工具函数、class wrapper、配置对象。`setTimeout` + `clearTimeout` 就是 debounce。等你需要在 3 个以上输入框复用时，再加工具函数。
 
-**116 → 10 lines of code**, same model, same prompt.
+**116 → 10 行代码**，同一个模型，同一个提示。

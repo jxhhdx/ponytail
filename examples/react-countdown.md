@@ -1,16 +1,16 @@
-# Countdown Timer
+# 倒计时组件
 
-**Task:** "Build me a countdown timer component in React that counts down from a given number of seconds."
+**任务：** “给我构建一个 React 倒计时组件，从给定秒数开始倒计时。”
 
-Verbatim model output from a benchmark run, Claude Haiku 4.5, no-skill arm vs ponytail arm, temperature 1, source `benchmarks/output.json`. Reproduce: `npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`.
+以下内容源自一次 benchmark 运行的模型输出，Claude Haiku 4.5，未启用 skill 组 vs ponytail 组，temperature 1，来源 `benchmarks/output.json`。复现：`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml`。
 
-## Without Ponytail, 267 lines of code
+## 未启用 Ponytail，267 行代码
 
-# React Countdown Timer Component
+# React 倒计时组件
 
-Here's a complete countdown timer component with multiple variations:
+下面是一个带多个变体的完整倒计时组件：
 
-## Basic Countdown Timer
+## 基础倒计时组件
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -53,7 +53,7 @@ export function CountdownTimer({ initialSeconds = 60 }) {
 }
 ```
 
-## Advanced Timer with Formatted Display
+## 带格式化显示的高级计时器
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -130,7 +130,7 @@ export function AdvancedCountdownTimer({
 }
 ```
 
-## Custom Hook Version
+## 自定义 Hook 版本
 
 ```jsx
 import { useState, useEffect, useCallback } from 'react';
@@ -170,7 +170,7 @@ export function useCountdown(initialSeconds) {
   };
 }
 
-// Usage
+// 使用方式
 export function TimerWithHook() {
   const { seconds, isActive, start, pause, reset } = useCountdown(60);
 
@@ -186,7 +186,7 @@ export function TimerWithHook() {
 }
 ```
 
-## Styled Component with Animations
+## 带动画的 styled-components 版本
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -283,7 +283,7 @@ export function StyledCountdownTimer({ initialSeconds = 60 }) {
 }
 ```
 
-## CSS Styling
+## CSS 样式
 
 ```css
 .countdown-timer {
@@ -339,37 +339,37 @@ export function StyledCountdownTimer({ initialSeconds = 60 }) {
 }
 ```
 
-## Usage Examples
+## 使用示例
 
 ```jsx
-// Basic usage
+// 基础用法
 <CountdownTimer initialSeconds={30} />
 
-// Advanced with callback
+// 带回调的高级用法
 <AdvancedCountdownTimer 
   initialSeconds={300}
   onComplete={() => alert('Time\'s up!')}
 />
 
-// Using the hook
+// 使用 hook
 <TimerWithHook />
 
-// Styled version
+// 带样式版本
 <StyledCountdownTimer initialSeconds={60} />
 ```
 
-## Features
+## 功能
 
-✅ **Basic Timer** - Simple countdown with start/pause/reset  
-✅ **Advanced Timer** - Formatted display (HH:MM:SS), progress bar, callbacks  
-✅ **Custom Hook** - Reusable logic for any component  
-✅ **Styled Components** - Beautiful UI with animations  
-✅ **Warning State** - Visual feedback when time is running out  
-✅ **Completion Callback** - Execute code when timer finishes  
+- **基础计时器** - 带开始/暂停/重置的简单倒计时
+- **高级计时器** - 格式化显示（HH:MM:SS）、进度条、回调
+- **自定义 Hook** - 可复用于任何组件的逻辑
+- **Styled Components** - 带动画的漂亮 UI
+- **警告状态** - 时间快到时提供视觉反馈
+- **完成回调** - 计时结束时执行代码
 
-Choose the version that best fits your needs!
+选择最适合你需求的版本。
 
-## With Ponytail, 9 lines of code
+## 启用 Ponytail，9 行代码
 
 ```jsx
 export function CountdownTimer({ seconds }) {
@@ -385,6 +385,6 @@ export function CountdownTimer({ seconds }) {
 }
 ```
 
-Skipped: pause/resume, formatted display (mm:ss), sound on zero, styling, add when needed.
+省掉了：暂停/继续、格式化显示（mm:ss）、归零音效、样式。需要时再加。
 
-**267 → 9 lines of code**, same model, same prompt.
+**267 → 9 行代码**，同一个模型，同一个提示。

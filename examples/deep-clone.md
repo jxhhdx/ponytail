@@ -1,8 +1,8 @@
-# Deep Clone
+# 深拷贝
 
-**Task:** "Deep clone this object."
+**任务：** “深拷贝这个对象。”
 
-## Without Ponytail
+## 未启用 Ponytail
 
 ```bash
 npm install lodash
@@ -14,18 +14,18 @@ import { cloneDeep } from "lodash";
 const copy = cloneDeep(original);
 ```
 
-Or the classic hack:
+或者经典 hack：
 
 ```js
-// fragile: loses Date, undefined, Map, Set, circular refs, functions
+// 脆弱：会丢失 Date、undefined、Map、Set、循环引用、函数
 const copy = JSON.parse(JSON.stringify(original));
 ```
 
-## With Ponytail
+## 启用 Ponytail
 
 ```js
-// ponytail: structuredClone does this
+// ponytail: structuredClone 就是做这个的
 const copy = structuredClone(original);
 ```
 
-**1 dependency (or a fragile hack) → 1 built-in.** `structuredClone` handles `Date`, `Map`, `Set`, `ArrayBuffer`, `RegExp`, circular references, and more, everything `JSON.parse/stringify` silently drops. Available in every browser since 2022 and Node.js since v17. Pull lodash in when you need the rest of it, not for one function.
+**1 个依赖（或一个脆弱 hack）→ 1 个内建 API。** `structuredClone` 可以处理 `Date`、`Map`、`Set`、`ArrayBuffer`、`RegExp`、循环引用等很多东西，而这些都会被 `JSON.parse/stringify` 静默丢掉。2022 年以来所有浏览器都支持，Node.js 从 v17 起支持。需要 lodash 其他能力时再引入它，不要只为一个函数引入。

@@ -1,12 +1,12 @@
-# Modal Dialog
+# 模态对话框
 
-**Task:** "Add a modal dialog for the delete confirmation."
+**任务：** “为删除确认添加一个模态对话框。”
 
-## Without Ponytail
+## 未启用 Ponytail
 
 ```bash
 npm install @radix-ui/react-dialog
-# or: npm install react-modal
+# 或：npm install react-modal
 ```
 
 ```jsx
@@ -37,12 +37,12 @@ export function DeleteModal({ onConfirm, onCancel }) {
 }
 ```
 
-A dependency, a portal, an overlay, a root, a trigger, a content wrapper, to show a box with two buttons.
+为了显示一个带两个按钮的框，引入了依赖、portal、overlay、root、trigger 和 content wrapper。
 
-## With Ponytail
+## 启用 Ponytail
 
 ```html
-<!-- ponytail: browser has one, with focus trapping and backdrop built in -->
+<!-- ponytail: 浏览器原生就有，内置焦点锁定和背景遮罩 -->
 <dialog id="confirm-delete">
   <p>This action cannot be undone.</p>
   <button id="cancel">Cancel</button>
@@ -55,8 +55,8 @@ const dialog = document.getElementById("confirm-delete");
 document.getElementById("cancel").onclick = () => dialog.close();
 document.getElementById("confirm").onclick = () => { onConfirm(); dialog.close(); };
 
-// Open it:
+// 打开：
 dialog.showModal();
 ```
 
-**1 dependency + 30 lines → 0 dependencies + 8 lines.** The native `<dialog>` traps focus automatically, closes on Escape, renders a backdrop via `::backdrop`, and is accessible by default. All browsers since 2022. The library was solving a problem the platform solved.
+**1 个依赖 + 30 行 → 0 个依赖 + 8 行。** 原生 `<dialog>` 会自动锁定焦点，按 Escape 可关闭，可用 `::backdrop` 渲染背景遮罩，并且默认具备可访问性。2022 年以来所有浏览器都支持。那个库解决的是平台已经解决的问题。
